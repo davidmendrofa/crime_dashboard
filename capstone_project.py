@@ -282,7 +282,7 @@ if selected == 'Home':
     )
 
     st.write(
-        'Pada kondisi ini kita coba melihat lebih detil kategori korban tindak kriminal berdasarkan usianya. Dalam hal ini korban dikelompokkan menjadi 5 kelas (group) usia. Kelas pertama usia sampai dengan 2 tahun ~ Baby, usia 3-16 ~ Children, usia 17-30 ~ Young Adults, usia 31-45 ~ Middle-age Adults, dan usia di atas 45  ~ Old Adults. Sebagai kelas (group) tambahan adalah "Not confirm" untuk korban yang tidak memiliki informasi valid terkait usia.'
+        'Pada kondisi ini kita coba melihat lebih detil kategori korban tindak kriminal berdasarkan usianya. Dalam hal ini korban dikelompokkan menjadi 5 kelas (group) usia. Untuk usia sampai dengan 2 tahun ~ Baby, usia 3-16 ~ Children, usia 17-30 ~ Young Adults, usia 31-45 ~ Middle-age Adults, dan usia di atas 45  ~ Old Adults. Sebagai kelas (group) tambahan adalah "Not confirm" untuk korban yang tidak memiliki informasi valid terkait usia.'
     )
 
     col_1,col_2,col_3,col_4,col_5 = st.columns(5)
