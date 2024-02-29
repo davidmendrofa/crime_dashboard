@@ -186,8 +186,7 @@ if selected == 'Home':
         prev_female = merged_data.loc[merged_data['year_occ']==latest_year_before,'female_count'].values[0]
         female_diff_pct = 100*(curr_female-prev_female)/prev_female
         st.metric('Number of Female Victims',value = curr_female,delta=f'{female_diff_pct:.2f}%')
-        curr_female
-
+      
     with col_3:
         curr_male = merged_data.loc[merged_data['year_occ']==latest_year,'male_count'].values[0]
         prev_male = merged_data.loc[merged_data['year_occ']==latest_year_before,'male_count'].values[0]
