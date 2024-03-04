@@ -441,7 +441,7 @@ if selected == 'Home':
     for mocode in mo_cp['mocodes']:
         description = ''
         if pd.notna(mocode):  # Memeriksa apakah nilai tidak kosong
-            for kode in mocode.split():  # Membagi string menjadi token
+            for kode in mocode.split():
                 kode = str(kode).zfill(4)  # Menambahkan 0 di depan kode jika panjang kode < 4
                 if kode in mocodes_dict:  # Memeriksa apakah kode ada di kamus
                     description += mocodes_dict[kode] + ', '  # Menambahkan deskripsi ke string description
