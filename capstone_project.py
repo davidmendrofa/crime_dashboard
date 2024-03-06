@@ -81,6 +81,7 @@ cp['weapon_desc'] = cp['weapon_desc'].apply(updating_weapon_used)
 cp['weapon_used_cd'] = cp['weapon_used_cd'].fillna('Not confirm')
 
 cp['premis_desc'] = cp['premis_desc'].fillna('Not confirm')
+cp['premis_cd'] = cp['premis_cd'].fillna('Not confirm')
 # st.write(cp.isnull().sum())
 
 def age_grouping(age):
