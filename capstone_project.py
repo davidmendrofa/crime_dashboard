@@ -183,7 +183,8 @@ if selected == 'Home':
         curr_crime = np.sum(data.loc[data['year_occ']==latest_year,'crm_cd_desc'].values[:])
         prev_crime = np.sum(data.loc[data['year_occ']==latest_year_before,'crm_cd_desc'].values[:])
         number_diff_pct = 100*(curr_crime-prev_crime)/prev_crime
-        st.metric('Number of Crime',value = curr_crime,delta=f'{number_diff_pct:.2f}%')
+        formatted_curr_crime = '{:,.0f}'.format(curr_crime)
+        st.metric('Number of Crime',value = formatted_curr_crime,delta=f'{number_diff_pct:.2f}%')
 
     with col_2:
         curr_female = merged_data.loc[merged_data['year_occ']==latest_year,'female_count'].values[0]
