@@ -78,6 +78,8 @@ cp['weapon_desc'] = cp['weapon_desc'].apply(updating_weapon_used)
 # above function block can be changed using code as below:
 # cp['weapon_desc'] = cp['weapon_desc'].fillna('Not confirm')
 
+cp['weapon_used_code'] = cp['weapon_used_code'].fillna('Not confirm)
+
 cp['premis_desc'] = cp['premis_desc'].fillna('Not confirm')
 # st.write(cp.isnull().sum())
 
