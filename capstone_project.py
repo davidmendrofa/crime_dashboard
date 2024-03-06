@@ -102,7 +102,7 @@ vict_age_class_pop = cp.pop('vict_age_class')
 cp.insert(13,'vict_age_class',vict_age_class_pop)
 
 # st.write(cp.head())
-cp.info()
+# cp.info() # check setelah semua missing value diubah menjadi Not confirm
 # Tahap pembuatan filter dan grouping
 
 #exclude 2024 untuk perhitungan %kenaikan/penurunan jumlah tindak kejahatan          
@@ -590,9 +590,9 @@ if selected == 'Table Description':
         'Column': ['dr_no', 'date_rptd', 'datetime_occ', 'year_occ', 'month_occ', 'time_crime_occ', 'area', 'area_name', 
                 'rpt_dist_no',     'crm_cd', 'crm_cd_desc', 'mocodes', 'vict_age', 'vict_age_class', 'vict_sex', 'premis_cd', 'premis_desc', 'weapon_used_cd', 'weapon_desc', 'status', 'status_desc'],
         'Non-Null Count': [891182, 891182, 891182, 891182, 891182, 891182, 891182, 891182, 891182, 891182, 891182, 891182, 891182, 
-                        891182, 891182, 891172, 891182, 308836, 891182, 891182, 891182],
+                        891182, 891182, 891182, 891182, 891182, 891182, 891182, 891182],
         'Dtype': ['int64', 'datetime64[ns]', 'datetime64[ns]', 'int32', 'object', 'int32', 'int64', 'object', 'int64', 'int64', 
-                'object', 'object', 'int64', 'object', 'object', 'float64', 'object', 'float64', 
+                'object', 'object', 'int64', 'object', 'object', 'object', 'object', 'object', 
                 'object', 'object', 'object']
     }
     
