@@ -190,19 +190,22 @@ if selected == 'Home':
         curr_female = merged_data.loc[merged_data['year_occ']==latest_year,'female_count'].values[0]
         prev_female = merged_data.loc[merged_data['year_occ']==latest_year_before,'female_count'].values[0]
         female_diff_pct = 100*(curr_female-prev_female)/prev_female
-        st.metric('Number of Female Victims',value = curr_female,delta=f'{female_diff_pct:.2f}%')
+        formatted_curr_female = '{:,.0f}'.format(curr_female)
+        st.metric('Number of Female Victims',value = formatted_curr_female,delta=f'{female_diff_pct:.2f}%')
       
     with col_3:
         curr_male = merged_data.loc[merged_data['year_occ']==latest_year,'male_count'].values[0]
         prev_male = merged_data.loc[merged_data['year_occ']==latest_year_before,'male_count'].values[0]
         male_diff_pct = 100*(curr_male-prev_male)/prev_male
-        st.metric('Number of Male Victims',value = curr_male,delta=f'{male_diff_pct:.2f}%')
+        formatted_curr_male = '{:,.0f}'.format(curr_male)
+        st.metric('Number of Male Victims',value = formatted_curr_male,delta=f'{male_diff_pct:.2f}%')
 
     with col_4:
         curr_not_confirm = merged_data.loc[merged_data['year_occ']==latest_year,'not_confirm_count'].values[0]
         prev_not_confirm = merged_data.loc[merged_data['year_occ']==latest_year_before,'not_confirm_count'].values[0]
         not_confirm_diff_pct = 100*(curr_not_confirm-prev_not_confirm)/prev_not_confirm
-        st.metric('Number of Not Confirm Victims',value = curr_not_confirm,delta=f'{not_confirm_diff_pct:.2f}%')
+        formatted_curr_not_confirm = '{:,.0f}'.format(curr_not_confirm)
+        st.metric('Number of Not Confirm Victims',value = formatted_curr_not_confirm,delta=f'{not_confirm_diff_pct:.2f}%')
     
     st.write('\n\n')
 
