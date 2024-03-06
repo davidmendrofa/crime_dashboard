@@ -102,7 +102,7 @@ vict_age_class_pop = cp.pop('vict_age_class')
 cp.insert(13,'vict_age_class',vict_age_class_pop)
 
 # st.write(cp.head())
-cp.info
+cp.info()
 # Tahap pembuatan filter dan grouping
 
 #exclude 2024 untuk perhitungan %kenaikan/penurunan jumlah tindak kejahatan          
