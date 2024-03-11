@@ -258,7 +258,7 @@ if selected == 'Home':
         max_y_value = data_all.groupby('year_occ')['crime_count'].sum().max()
         max_y_axis = max_y_value + 50000
         if freq == 'Monthly':
-            line_chart = alt.Chart(data_all).mark_line(point=True,color='lightblue').encode(
+            line_chart = alt.Chart(data_all).mark_line(point=True,color='red').encode(
                 x = alt.X('year_month:O', title='Occurance Periode',axis=alt.Axis(tickCount=step, labelAngle=0)),
                 y = alt.Y('crime_count:Q', title='Crimes Number', axis=alt.Axis(format='d'))
             ).properties(title='Crime Number in Monthly',height=500)
@@ -267,7 +267,7 @@ if selected == 'Home':
                 y = alt.Y('crime_count:Q')
             )
         else:
-            line_chart = alt.Chart(data_all.groupby('year_occ')['crime_count'].sum().reset_index()).mark_line(point=True,color='lightblue').encode(
+            line_chart = alt.Chart(data_all.groupby('year_occ')['crime_count'].sum().reset_index()).mark_line(point=True,color='red').encode(
                 x = alt.X('year_occ:O', title='Occurance Periode',axis=alt.Axis(labelAngle=0)),
                 y = alt.Y('crime_count:Q', title='Crimes Number', axis=alt.Axis(format='d'),scale=alt.Scale(domain=(0,max_y_axis)))
             ).properties(title='Crime Number in Yearly',height=500)
