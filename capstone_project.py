@@ -213,7 +213,7 @@ if selected == 'Home':
         'Bagaimana Trend Angka Kriminalitas Dari Tahun ke Tahun?\n\n'
         )
 
-    col_1,col_2,col_3 = st.columns(3)
+    col_1,col_2,col_3 = st.columns([1,1.5,1.5])
 
     with col_1:
         st.write(
@@ -222,17 +222,17 @@ if selected == 'Home':
             '</div>', unsafe_allow_html=True
         )   
         st.write('\n\n')
-        col_a,col_b = st.columns(2)
-        with col_a:
-            container = st.container(border = False)
-            with container:
-                freq = st.selectbox('Pilih frekuensi Crime Number line chart :',['Yearly','Monthly'])
-
         st.write(
             '<div style="text-align:justify;">'
             'Dari informasi yang disajikan pada bar chart, diketahui berdasar gender, wanita bukanlah sebagai target tertinggi dari para pelaku kejahatan (kriminal).'
             '</div>',unsafe_allow_html=True
         )
+        st.write('\n\n')
+        col_a,col_b = st.columns(2)
+        with col_a:
+            container = st.container(border = False)
+            with container:
+                freq = st.selectbox('Pilih frekuensi Crime Number line chart :',['Yearly','Monthly'])
 
     with col_2:
         data_all = cp.groupby(['year_occ','month_occ']).size().reset_index(name='crime_count')
@@ -261,16 +261,25 @@ if selected == 'Home':
             line_chart = alt.Chart(data_all).mark_line(point=True,color='lightblue').encode(
                 x = alt.X('year_month:O', title='Occurance Periode',axis=alt.Axis(tickCount=step, labelAngle=0)),
                 y = alt.Y('crime_count:Q', title='Crimes Number', axis=alt.Axis(format='d'))
-            ).properties(title='Crime Number in Monthly',height=350)
+            ).properties(title='Crime Number in Monthly',height=500)
+            point_chart = alt.Chart(data_all).mark_point(color='dark-gold4').encode(
+                x = alt.X('year_month:O'),
+                y = alt.Y('crime_count:Q')
+            )
         else:
             line_chart = alt.Chart(data_all.groupby('year_occ')['crime_count'].sum().reset_index()).mark_line(point=True,color='lightblue').encode(
                 x = alt.X('year_occ:O', title='Occurance Periode',axis=alt.Axis(labelAngle=0)),
                 y = alt.Y('crime_count:Q', title='Crimes Number', axis=alt.Axis(format='d'),scale=alt.Scale(domain=(0,max_y_axis)))
-            ).properties(title='Crime Number in Yearly',height=350)
-
-        line_chart = line_chart.configure_title(fontSize=16, anchor='middle')
-        line_chart = line_chart.interactive()
-        st.altair_chart(line_chart, use_container_width=True)     
+            ).properties(title='Crime Number in Yearly',height=500)
+            point_chart = alt.Chart(data_all.groupby('year_occ')['crime_count'].sum().reset_index()).mark_point(color='dark-gold4').encode(
+                x = alt.X('year_occ:O'),
+                y = alt.Y('crime_count:Q')
+            )
+           
+        chart_combo = line_chart + point_chart
+        line_chart_combo = chart_combo.configure_title(fontSize=16, anchor='middle')
+        line_chart_combo = line_chart_combo.interactive()
+        st.altair_chart(line_chart_combo, use_container_width=True)     
 
     with col_3:
         victim_gender = cp[cp['year_occ']!=2024].groupby(['year_occ','vict_sex']).size().reset_index(name='crime_count')
@@ -281,7 +290,7 @@ if selected == 'Home':
             xOffset='vict_sex:N',
             y=alt.Y('crime_count:Q',title='Crimes Number'),
             color=alt.Color('vict_sex:N',scale=alt.Scale(scheme='category20b'),legend=alt.Legend(title='Victims by Gender', orient='right',titleFontSize=12,labelFontSize=12))
-        ).properties(title='Comparison Victims by Gender',height=350).configure_title(fontSize=16,anchor='middle')
+        ).properties(title='Comparison Victims by Gender',height=500).configure_title(fontSize=16,anchor='middle')
         st.altair_chart(bar_chart, use_container_width=True)
 
     st.subheader(
@@ -292,34 +301,34 @@ if selected == 'Home':
         'Pada kondisi ini kita coba melihat lebih detil kategori korban tindak kriminal berdasarkan usianya. Dalam hal ini korban dikelompokkan menjadi 5 kelas (group) usia. Untuk usia sampai dengan 2 tahun ~ Baby, usia 3-16 ~ Children, usia 17-30 ~ Young Adults, usia 31-45 ~ Middle-age Adults, dan usia di atas 45  ~ Old Adults. Sebagai kelas (group) tambahan adalah "Not confirm" untuk korban yang tidak memiliki informasi valid terkait usia.'
     )
 
-    col_1,col_2,col_3,col_4,col_5 = st.columns(5)
+    col_1,col_2,col_3 = st.columns([1,2,1])
     with col_1:
         year_option = (latest_year_compare['year_occ'].unique()).tolist()
         year_option.sort(reverse=True)
         year_option.insert(0,'All Year')
-        year_select = st.selectbox('Pilih tahun :',year_option)
-
-    if year_select != 'All Year':
-        age_class = cp[cp['year_occ']==year_select].groupby(['year_occ','vict_age_class']).size().reset_index(name='total_age_class')
-        col_1,col_2,col_3 = st.columns(3)
-        with col_1:
+        col_a,col_b = st.columns(2)
+        with col_a:
+            container = st.container(border = False)
+            with container:
+                year_select = st.selectbox('Pilih tahun :',year_option)
+    with col_2:
+        if year_select != 'All Year':
+            age_class = cp[cp['year_occ']==year_select].groupby(['year_occ','vict_age_class']).size().reset_index(name='total_age_class')
             bar_chart = alt.Chart(age_class).mark_bar().encode(
                 x=alt.X('year_occ:O',axis=alt.Axis(labelAngle=0),title='Year'),  
                 xOffset='vict_age_class:N',          
                 y=alt.Y('total_age_class:Q' ,title='Victims Number by Age Class'),
                 color=alt.Color('vict_age_class:N',scale=alt.Scale(scheme='category20b'),title='Victims by Age Class')
-            ).properties(title='Victims Number of Crime by Age Class',width=300,height=350).configure_title(fontSize=16,anchor='middle')
+            ).properties(title='Victims Number of Crime by Age Class',height=500).configure_title(fontSize=16,anchor='middle')
             st.altair_chart(bar_chart,use_container_width=True)
-    else:
-        col_1,col_2 = st.columns([4,3])
-        with col_1:
+        else:
             age_class = cp[cp['year_occ']!=2024].groupby(['year_occ','vict_age_class']).size().reset_index(name='total_age_class')
             bar_chart = alt.Chart(age_class).mark_bar().encode(
                 x=alt.X('year_occ:O',axis=alt.Axis(labelAngle=0),title='Year'),  
                 xOffset='vict_age_class:N',
                 y=alt.Y('total_age_class:Q',title='Victims Number by Age Class'),
                 color=alt.Color('vict_age_class:N',scale=alt.Scale(scheme='category20b'),title='Victims by Age Class')
-            ).properties(title='Victims Number of Crime by Age Class',width=300,height=350).configure_title(fontSize=16,anchor='middle')
+            ).properties(title='Victims Number of Crime by Age Class',height=500).configure_title(fontSize=16,anchor='middle')
             st.altair_chart(bar_chart,use_container_width=True)
 
 
@@ -327,7 +336,7 @@ if selected == 'Home':
         'Pengelompokkan Berdasarkan Area dan Status'
     )
 
-    col_1,col_2,col_3 = st.columns(3)
+    col_1,col_2,col_3 = st.columns([1,1.5,1.5])
 
     with col_1:
         year_option_area=year_option.copy()
@@ -360,7 +369,7 @@ if selected == 'Home':
             # yOffset='area_name:N',
             y=alt.Y('area_name:N',title='Area-Name',sort='-x'),
             color=alt.Color('area_name:N',scale=alt.Scale(scheme='category20b'),title='Crimes Number by Area')
-        ).properties(title='Crimes Number Recorded by Area',height=350).configure_title(fontSize=16,anchor='middle').configure_legend(columns=2)
+        ).properties(title='Crimes Number Recorded by Area',height=500).configure_title(fontSize=16,anchor='middle').configure_legend(columns=2)
         st.altair_chart(bar_chart, use_container_width=True)
     with col_3:
         if len(areas)>0:
@@ -376,7 +385,7 @@ if selected == 'Home':
                 # xOffset='status_desc:N',
                 y=alt.Y('status_count:Q',sort='-y',title='Status Number'),
                 color=alt.Color('status_desc:N',scale=alt.Scale(scheme='category20b'),title='Status of Reported Crimes'),
-            ).properties(title=(f'Reported Crimes Status - {areas[0]}'),height=350).configure_title(fontSize=16,anchor='middle')
+            ).properties(title=(f'Reported Crimes Status - {areas[0]}'),height=500).configure_title(fontSize=16,anchor='middle')
             st.altair_chart(bar_chart,use_container_width=True)
         else:
             area_names = ', '.join(areas)
@@ -390,7 +399,7 @@ if selected == 'Home':
                     # xOffset='status_desc:N',
                     y=alt.Y('status_count:Q',sort='-y',title='Status Number'),
                     color=alt.Color('status_desc:N',scale=alt.Scale(scheme='category20b'),title='Status of Reported Crimes'),
-            ).properties(title=(f'Reported Crimes Status - {area_names}'),height=350).configure_title(fontSize=16,anchor='middle')
+            ).properties(title=(f'Reported Crimes Status - {area_names}'),height=500).configure_title(fontSize=16,anchor='middle')
             st.altair_chart(bar_chart,use_container_width=True)
     
     st.subheader(
@@ -461,9 +470,9 @@ if selected == 'Home':
     # Menampilkan lima baris pertama dari kolom baru
     # st.write(mo_cp.head())
 
-    col_1,col_2 = st.columns([4,3])
+    _,mid_col,_ = st.columns([0.5,3,0.5])
 
-    with col_1:
+    with mid_col:
         if 'All Areas' in areas:
             split_mocodes = mo_cp['mocodes_description'].str.split(', ')
             all_mocodes = []
@@ -478,7 +487,7 @@ if selected == 'Home':
                 x=alt.X('mo_count:Q',title='Modus Operandi Number'),
                 y=alt.Y('mocodes_descriptions:N',title='Modus Operandi Name',sort='-x'),
                 color=alt.Color('mocodes_descriptions:N',scale=alt.Scale(scheme='category20b'),title='MO Descriptions')
-            ).properties(title=(f'All Crimes Modus Operandi - {areas[0]}'),height=350).configure_title(fontSize=16,anchor='middle').configure_legend(columns=2)
+            ).properties(title=(f'All Crimes Modus Operandi - {areas[0]}'),height=500).configure_title(fontSize=16,anchor='middle').configure_legend(columns=2)
             st.altair_chart(bar_chart, use_container_width=True)
         else:
             area_names = ', '.join(areas)
@@ -496,7 +505,7 @@ if selected == 'Home':
                 x=alt.X('mo_count:Q',title='Modus Operandi Number'),
                 y=alt.Y('mocodes_descriptions:N',title='Modus Operandi Name',sort='-x'),
                 color=alt.Color('mocodes_descriptions:N',scale=alt.Scale(scheme='category20b'),title='MO Descriptions')
-            ).properties(title=(f'All Crimes Modus Operandi - {area_names}'),height=350).configure_title(fontSize=16,anchor='middle').configure_legend(columns=2)
+            ).properties(title=(f'All Crimes Modus Operandi - {area_names}'),height=500).configure_title(fontSize=16,anchor='middle').configure_legend(columns=2)
             st.altair_chart(bar_chart, use_container_width=True)
 
 
