@@ -367,9 +367,12 @@ if selected == 'Home':
         bar_chart = alt.Chart(area).mark_bar().encode(
             x=alt.X('crime_count:Q',title='Crimes Number'),
             # yOffset='area_name:N',
-            y=alt.Y('area_name:N',title='Area-Name',sort='-x'),
+            y=alt.Y('area_name:N',title='Area-Name',sort='-x',axis=alt.Axis(tickCount=1, labelOverlap='greedy')),
             color=alt.Color('area_name:N',scale=alt.Scale(scheme='category20b'),title='Crimes Number by Area')
         ).properties(title='Crimes Number Recorded by Area',height=500).configure_title(fontSize=16,anchor='middle').configure_legend(columns=1)
+        bar_chart = bar_chart.configure_axis(
+            labelFontSize=10  # Atur ukuran font di sini
+        )
         st.altair_chart(bar_chart, use_container_width=True)
     with col_3:
         if len(areas)>0:
@@ -438,16 +441,18 @@ if selected == 'Home':
     list_area_mo.sort()
     list_area_mo.insert(0,'All Areas')
     
-    col_1,col_2,col_3,col_4,col_5 = st.columns(5)
+    col_1,col_2,col_3  = st.columns([1,2,1])
 
     with col_1:
-        container_mo = st.container(border = False)
-        with container_mo:
-            year_select_mo = st.selectbox('Pilih tahun :',year_option_mo,key='year_select_mo')
-        with container_mo:
-            areas = st.multiselect(
-                'Pilih area :',list_area_mo,default=['All Areas'],key='areas_select_mo'
-            )   
+        col_a,col_b = st.columns(2)
+        with col_a:       
+           container_mo = st.container(border = False)
+           with container_mo:
+               year_select_mo = st.selectbox('Pilih tahun :',year_option_mo,key='year_select_mo')
+           with container_mo:
+               areas = st.multiselect(
+                   'Pilih area :',list_area_mo,default=['All Areas'],key='areas_select_mo'
+               )   
     
     mocodes_dict = mc.set_index('code')['description'].to_dict() # Mengonversi mc menjadi kamus untuk pencarian yang lebih efisien
 
@@ -470,9 +475,7 @@ if selected == 'Home':
     # Menampilkan lima baris pertama dari kolom baru
     # st.write(mo_cp.head())
 
-    _,mid_col,_ = st.columns([0.5,3,0.5])
-
-    with mid_col:
+    with col_2:
         if 'All Areas' in areas:
             split_mocodes = mo_cp['mocodes_description'].str.split(', ')
             all_mocodes = []
@@ -485,9 +488,13 @@ if selected == 'Home':
             # st.write(mo_year)
             bar_chart = alt.Chart(mo_year).mark_bar().encode(
                 x=alt.X('mo_count:Q',title='Modus Operandi Number'),
-                y=alt.Y('mocodes_descriptions:N',title='Modus Operandi Name',sort='-x'),
+                y=alt.Y('mocodes_descriptions:N',title='Modus Operandi Name',sort='-x',axis=alt.Axis(tickCount=1, labelOverlap='greedy')),
                 color=alt.Color('mocodes_descriptions:N',scale=alt.Scale(scheme='category20b'),title='MO Descriptions')
-            ).properties(title=(f'All Crimes Modus Operandi - {areas[0]}'),height=500).configure_title(fontSize=16,anchor='middle').configure_legend(columns=2)
+            ).properties(title=(f'All Crimes Modus Operandi - {areas[0]}'),height=500).configure_title(fontSize=16,anchor='middle')
+            # .configure_legend(columns=2) # jika perlu menambahkan legend
+            bar_chart = bar_chart.configure_axis(
+                labelFontSize=10  # Atur ukuran font di sini
+            )
             st.altair_chart(bar_chart, use_container_width=True)
         else:
             area_names = ', '.join(areas)
@@ -503,9 +510,13 @@ if selected == 'Home':
             # st.write(mo_year)
             bar_chart = alt.Chart(mo_year).mark_bar().encode(
                 x=alt.X('mo_count:Q',title='Modus Operandi Number'),
-                y=alt.Y('mocodes_descriptions:N',title='Modus Operandi Name',sort='-x'),
+                y=alt.Y('mocodes_descriptions:N',title='Modus Operandi Name',sort='-x',axis=alt.Axis(tickCount=1, labelOverlap='greedy')),
                 color=alt.Color('mocodes_descriptions:N',scale=alt.Scale(scheme='category20b'),title='MO Descriptions')
-            ).properties(title=(f'All Crimes Modus Operandi - {area_names}'),height=500).configure_title(fontSize=16,anchor='middle').configure_legend(columns=2)
+            ).properties(title=(f'All Crimes Modus Operandi - {area_names}'),height=500).configure_title(fontSize=16,anchor='middle')
+            # .configure_legend(columns=2) # jika perlu menambahkan legend
+            bar_chart = bar_chart.configure_axis(
+                labelFontSize=10  # Atur ukuran font di sini
+            ) 
             st.altair_chart(bar_chart, use_container_width=True)
 
 
