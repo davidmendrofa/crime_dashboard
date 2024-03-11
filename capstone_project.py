@@ -368,7 +368,7 @@ if selected == 'Home':
             x=alt.X('crime_count:Q',title='Crimes Number'),
             # yOffset='area_name:N',
             y=alt.Y('area_name:N',title='Area-Name',sort='-x',axis=alt.Axis(tickCount=1, labelOverlap='greedy')),
-            color=alt.Color('area_name:N',scale=alt.Scale(scheme='category20b'),title='Crimes Number by Area')
+            color=alt.Color('area_name:N',scale=alt.Scale(scheme='category20b'),title='Crimes Number by Area',legend=None)
         ).properties(title='Crimes Number Recorded by Area',height=500).configure_title(fontSize=16,anchor='middle').configure_legend(columns=1)
         bar_chart = bar_chart.configure_axis(
             labelFontSize=10  # Atur ukuran font di sini
@@ -489,7 +489,7 @@ if selected == 'Home':
             bar_chart = alt.Chart(mo_year).mark_bar().encode(
                 x=alt.X('mo_count:Q',title='Modus Operandi Number'),
                 y=alt.Y('mocodes_descriptions:N',title='Modus Operandi Name',sort='-x',axis=alt.Axis(tickCount=1, labelOverlap='greedy')),
-                color=alt.Color('mocodes_descriptions:N',scale=alt.Scale(scheme='category20b'),title='MO Descriptions')
+                color=alt.Color('mocodes_descriptions:N',scale=alt.Scale(scheme='category20b'),title='MO Descriptions',legend=None)
             ).properties(title=(f'All Crimes Modus Operandi - {areas[0]}'),height=500).configure_title(fontSize=16,anchor='middle')
             # .configure_legend(columns=2) # jika perlu menambahkan legend
             bar_chart = bar_chart.configure_axis(
@@ -511,7 +511,7 @@ if selected == 'Home':
             bar_chart = alt.Chart(mo_year).mark_bar().encode(
                 x=alt.X('mo_count:Q',title='Modus Operandi Number'),
                 y=alt.Y('mocodes_descriptions:N',title='Modus Operandi Name',sort='-x',axis=alt.Axis(tickCount=1, labelOverlap='greedy')),
-                color=alt.Color('mocodes_descriptions:N',scale=alt.Scale(scheme='category20b'),title='MO Descriptions')
+                color=alt.Color('mocodes_descriptions:N',scale=alt.Scale(scheme='category20b'),title='MO Descriptions',legend=None)
             ).properties(title=(f'All Crimes Modus Operandi - {area_names}'),height=500).configure_title(fontSize=16,anchor='middle')
             # .configure_legend(columns=2) # jika perlu menambahkan legend
             bar_chart = bar_chart.configure_axis(
