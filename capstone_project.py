@@ -369,7 +369,7 @@ if selected == 'Home':
             # yOffset='area_name:N',
             y=alt.Y('area_name:N',title='Area-Name',sort='-x'),
             color=alt.Color('area_name:N',scale=alt.Scale(scheme='category20b'),title='Crimes Number by Area')
-        ).properties(title='Crimes Number Recorded by Area',height=500).configure_title(fontSize=16,anchor='middle').configure_legend(columns=2)
+        ).properties(title='Crimes Number Recorded by Area',height=500).configure_title(fontSize=16,anchor='middle').configure_legend(columns=1)
         st.altair_chart(bar_chart, use_container_width=True)
     with col_3:
         if len(areas)>0:
