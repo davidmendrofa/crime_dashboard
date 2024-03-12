@@ -432,7 +432,8 @@ if selected == 'Home':
         'Dalam pemaparan ini, mocode yang digunakan merupakan tabel terpisah yang dapat diunduh dari <a href="https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8/about_data">lacity.org</a>. Tabel mocode inilah nanti yang akan digunakakn untuk mapping mocode dari dataset yang disediakan dalam visualisasi grafik.'
         '</div>', unsafe_allow_html=True
     )
-
+    st.write('\n\n')
+   
     year_option_mo = (latest_year_compare['year_occ'].unique()).tolist()
     year_option_mo.sort(reverse=True)
     # st.write(year_option_mo)
